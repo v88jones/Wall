@@ -1,14 +1,15 @@
-<% for(let index in comments){ 
-    let comment_data = comments[index]
-    %>
-<div class="posted_comments">
-    <p>
-        <span class="user_info"><%= comment_data.first_name %> <%= comment_data.last_name %></span>
-        <span class="date"><%= comment_data.posted_date %></span>
-        <% if(comment_data.user_id === current_user.id && comment_data.show_delete){ %>
-            <button class="delete_comment" data-comment-id="<%= comment_data.comment_id %>">x</button>
-        <% } %>
-    </p>
-    <p class="comments"><%= comment_data.comment %></p>
-</div>
+<% for(let index in comments){
+    let comment = comments[index]; %>
+    <div class="posted_comments">
+        <p>
+            <span><%= comment.full_name %></span>
+            <span><%= comment.posted_date %></span>
+
+            <% if(comment.user_id === current_user.id && comment.show_delete){ %>
+                <button class="delete_comment" data-comment-id="<%= comment.comment_id %>"></button>    
+            <% } %>
+        </p>
+        <p><%= comment.comment %></p>
+    </div>
+
 <% } %>

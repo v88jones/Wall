@@ -1,14 +1,14 @@
-const path = require('path');
 const ejs = require('ejs');
-const CommentModel = require('../models/comment.model.js');
+const path = require('path');
 
+const CommentModel = require('../models/comment.model.js');
 class CommentController{
     async post_comment(req, res){
         let params = req.body;
         let {current_user} = req.session;
         let commentModel = new CommentModel();
 
-        let insert_comment_result = await commentModel.insert_comment(params, current_user);
+        let insert_comment_result = await commentModel.insertComment(params, current_user);
 
         if(insert_comment_result.status){
             let {comments} = insert_comment_result.data;
@@ -19,18 +19,18 @@ class CommentController{
                 {async: true}
             );
 
-            insert_comment_result.html = comment_html
+            insert_comment_result.html = comment_html;
         }
 
         res.json(insert_comment_result);
     }
 
-    async delete_post(req, res){
+    async delete_comment(req, res){
         let params = req.body;
         let {current_user} = req.session;
         let commentModel = new CommentModel();
 
-        res.json(await commentModel.delete_comment(params.comment_id, current_user));
+        res.json(await commentModel.deleteComment(params, current_user));
     }
 }
 

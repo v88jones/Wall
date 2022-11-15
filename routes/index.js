@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const UserController = require('../controllers/user.controller.js');
-const MessageController = require('../controllers/message.controller');
+const MessageController = require('../controllers/message.controller.js');
 
 router.get('/', function(req, res, next) {
   new UserController().login(req, res);
