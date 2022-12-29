@@ -13,6 +13,7 @@ RUN npm install -g nodemon
 COPY . .
 
 EXPOSE 3000
+CMD ["npm", "start"]
 
 # ---- more info:
 # Debugger with docker: https://dev.to/alex_barashkov/how-to-debug-nodejs-in-a-docker-container-bhi

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="/javascripts/jquery-3.6.1.min.js"></script>
+    <script src="/javascripts/dashboard_script.js"></script>
+</head>
+<body>
+    <div id="navbar">
+        <h1>Wall</h1>
+        <p>Hello <%= current_user.first_name %>! <a href="/logout">Logout</a></p>
+    </div>
+    <div id="main">
+        <div id="message">
+            <p>Post a message!</p>
+            <form action="/messages/post" method="post" class="post_form">
+                <input type="hidden" name="is_message" value="1">
+                <textarea name="message" cols="100" rows="10"></textarea>
+                <input type="submit" value="Post!">
+            </form>
+        </div>
+
+        <ul id="post_messages">
+            <% for(let index in messages){ 
+                let message_data = messages[index];
+            %>
+                <li class="messages">
+                    <p class="message_data">
+                        <%= message_data.full_name %> - <%= message_data.created_at %>
+                        <% if(current_user.id === message_data.user_id && message_data.show_delete){ %>
+                            <button class="delete_btn" data-id="<%= message_data.message_id %>" data-is_message="1">x</button>
+                        <% } %>
+                    </p>
+                    <p><%= message_data.message %></p>
+
+                    <p>Post a comment!</p>
+                    <form action="/messages/post" method="post" class="post_form">
+                        <input type="hidden" name="is_message" value="0">
+                        <input type="hidden" name="message_id" value="<%= message_data.message_id %>">
+                        <textarea name="comment" cols="100" rows="10"></textarea>
+                        <input type="submit" value="Post!">
+                    </form>
+
+                    <ul class="comment">
+                    <%  if(message_data.comment_data){
+                            let comments = JSON.parse(message_data.comment_data);
+                            for(let comment_index in comments){ 
+                                let comment_data = comments[comment_index];
+                        %>
+                                <li class="messages">
+                                    <p class="message_data">
+                                        <%= comment_data.full_name %> - <%= comment_data.created_at %>
+                                        <% if(current_user.id === comment_data.user_id && comment_data.show_delete){ %>
+                                            <button class="delete_btn" data-id="<%= comment_data.comment_id %>" data-is_message="0">x</button>
+                                        <% } %>
+                                    </p>
+                                    <p><%= comment_data.comment %></p>
+                                </li>
+                        <%  }
+                        } %>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+</body>
+</html>

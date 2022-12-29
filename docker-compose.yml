@@ -1,9 +1,9 @@
 version: "3.9"
 
 services:
-  wall:
+  myapp:
+    container_name: docker-the-wall
     build: ./
-    command: "npm run start"
     ports:
       - 3000:3000
       - 9229:9229
